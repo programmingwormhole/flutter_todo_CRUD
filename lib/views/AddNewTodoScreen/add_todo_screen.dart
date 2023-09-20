@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/controllers/todo_controller.dart';
+import 'package:todo_app/models/todo_model.dart';
 
 import '../../utils/colors.dart';
 
 class AddTodoScreen extends StatefulWidget {
-  const AddTodoScreen({super.key});
+  final String? type;
+  final Todo? data;
+  final int? index;
+
+  const AddTodoScreen({
+    super.key,
+    this.type,
+    this.data,
+    this.index,
+  });
 
   @override
   State<AddTodoScreen> createState() => _AddTodoScreenState();
@@ -32,6 +42,20 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     }
   }
 
+  void updateData() {
+    selectedValue = widget.data!.priorety;
+    selectedTime = widget.data!.todoDate;
+    _titleController.text = widget.data!.title;
+    _descriptionController.text = widget.data!.description;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.type == 'update' ? updateData() : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +70,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             color: Colors.white,
           ),
         ),
-        title: const Text(
-          'Add New',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          widget.type == 'update' ? 'Update' : 'Add New',
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: Padding(
@@ -160,12 +184,21 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               ),
               InkWell(
                 onTap: () {
-                  controller.todoAdd(
-                    _titleController.text,
-                    selectedTime,
-                    _descriptionController.text,
-                    selectedValue,
-                  );
+                  widget.type == 'update'
+                      ? controller.updateData(
+                          _titleController.text,
+                          selectedTime,
+                          _descriptionController.text,
+                          selectedValue,
+                          controller.todosList[widget.index!].isDone,
+                          widget.index!,
+                        )
+                      : controller.todoAdd(
+                          _titleController.text,
+                          selectedTime,
+                          _descriptionController.text,
+                          selectedValue,
+                        );
                   Get.back();
                 },
                 child: Container(
@@ -174,14 +207,14 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 15,
                     ),
                     child: Center(
                       child: Text(
-                        'ADD TASK',
-                        style: TextStyle(color: Colors.white),
+                        widget.type == 'update' ? 'UPDATE TASK' : 'ADD TASK',
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
