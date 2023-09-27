@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "711208605855",
+    "project_id": "maktab-firebase",
+    "storage_bucket": "maktab-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711208605855:android:457d0d7feef86883ebaaaa",
+        "android_client_info": {
+          "package_name": "com.example.todo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ03KTm1yCkFo8t18NbX24QKrTVbiteR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
